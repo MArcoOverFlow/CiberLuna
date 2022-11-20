@@ -75,7 +75,7 @@
         android:layout_marginEnd="80dp"
         android:layout_marginBottom="310dp"
         android:background="#38ffffff"
-        android:drawableLeft="@drawable/ic_baseline_perm_identity_24"
+        android:drawableLeft="@drawable/ic_baseline_enhanced_encryption_24"
         android:drawablePadding="20dp"
         android:ems="10"
         android:hint="Contraseña"
