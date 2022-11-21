@@ -1,26 +1,26 @@
 package com.example.ciberluna;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.ciberluna.Entidades.Contenido;
+import com.example.ciberluna.Fragment.DetalleContenidoFragment;
 import com.example.ciberluna.Fragment.FragmentAgenda;
 import com.example.ciberluna.Fragment.FragmentDatos;
 import com.example.ciberluna.Fragment.FragmentSolicitud;
 import com.example.ciberluna.Fragment.MainFragment;
 import com.google.android.material.navigation.NavigationView;
 
-public class InicioActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class InicioActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, iComunicaFragment{
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -30,6 +30,9 @@ public class InicioActivity extends AppCompatActivity implements NavigationView.
     //variables para cargar el fragment principal
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+
+    //Variable detalle contenido del fragment
+    DetalleContenidoFragment detalleContenidoFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,5 +84,23 @@ public class InicioActivity extends AppCompatActivity implements NavigationView.
             fragmentTransaction.commit();
         }
         return false;
+    }
+
+    @Override
+    public void enviarContenido(Contenido contenido) {
+        //realizar envio
+        detalleContenidoFragment = new DetalleContenidoFragment();
+        //Objeto Bundle para transportar información
+        Bundle bundleEnvio = new Bundle();
+        //Enviar el objeto que esta llegando con Serializable
+        bundleEnvio.putSerializable("objeto", contenido);
+        detalleContenidoFragment.setArguments(bundleEnvio);
+        //abrir fragment
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, detalleContenidoFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
     }
 }

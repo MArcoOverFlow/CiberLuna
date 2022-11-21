@@ -1,4 +1,6 @@
 package com.example.ciberluna.Fragment;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ciberluna.Adaptadores.AdapterContenido;
 import com.example.ciberluna.Entidades.Contenido;
 import com.example.ciberluna.R;
+import com.example.ciberluna.iComunicaFragment;
 
 import java.util.ArrayList;
 
@@ -22,6 +25,11 @@ public class MainFragment extends Fragment{
     AdapterContenido adapterContenido;
     RecyclerView recyclerViewContenido;
     ArrayList<Contenido> listaContenido;
+
+    //Referencias para comunicar Fragments
+    Activity actividad;
+    iComunicaFragment interfaceComunicaFragment;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,8 +62,22 @@ public class MainFragment extends Fragment{
             public void onClick(View view) {
                 String titulo = listaContenido.get(recyclerViewContenido.getChildAdapterPosition(view)).getTitulo();
                 Toast.makeText(getContext(), "Entrando a "+titulo, Toast.LENGTH_SHORT).show();
-
+                interfaceComunicaFragment.enviarContenido(listaContenido.get(recyclerViewContenido.getChildAdapterPosition(view)));
             }
         });
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+      if (context instanceof  Activity) {
+          this.actividad = (Activity) context;
+          interfaceComunicaFragment = (iComunicaFragment) this.actividad;
+      }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 }

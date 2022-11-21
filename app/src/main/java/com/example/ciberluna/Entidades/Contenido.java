@@ -1,6 +1,8 @@
 package com.example.ciberluna.Entidades;
 
-public class Contenido {
+import java.io.Serializable;
+
+public class Contenido implements Serializable {
     private String titulo;
     private String descripcion;
     private int imagenid;
